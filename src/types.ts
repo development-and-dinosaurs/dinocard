@@ -48,3 +48,44 @@ export interface PlayerCollection {
   packsAvailable: number;
   totalPacksOpened: number;
 }
+
+export type BattleMove = 'strike' | 'power_strike' | 'guard' | 'hold';
+
+export interface BattleMoveInfo {
+  id: BattleMove;
+  label: string;
+  cost: number;
+  emoji: string;
+  description: string;
+}
+
+export const BATTLE_MOVES: BattleMoveInfo[] = [
+  {
+    id: 'strike',
+    label: 'Strike',
+    cost: 1,
+    emoji: '⚔️',
+    description: 'Basic attack. Blocked by Guard.',
+  },
+  {
+    id: 'power_strike',
+    label: 'Power Strike',
+    cost: 2,
+    emoji: '💥',
+    description: 'Heavy attack. Ignores Guard.',
+  },
+  {
+    id: 'guard',
+    label: 'Guard',
+    cost: 1,
+    emoji: '🛡️',
+    description: 'Halves incoming Strike damage.',
+  },
+  {
+    id: 'hold',
+    label: 'Hold',
+    cost: 0,
+    emoji: '⏳',
+    description: 'Save your reserves for next turn.',
+  },
+];
