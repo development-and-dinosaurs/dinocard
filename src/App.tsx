@@ -3,13 +3,25 @@ import type { DinoCard, PlayerCollection } from './types';
 import { loadCollection, saveCollection } from './utils/storage';
 import { PackOpener } from './components/PackOpener';
 import { Collection } from './components/Collection';
+import { Battle } from './components/Battle';
 import './App.css';
 
-type Tab = 'packs' | 'collection';
+type Tab = 'packs' | 'collection' | 'battle';
 
 function App() {
   const [collection, setCollection] = useState<PlayerCollection>(loadCollection);
   const [tab, setTab] = useState<Tab>('packs');
+
+  function handleBattleWon() {
+    setCollection((prev) => {
+      const next: PlayerCollection = {
+        ...prev,
+        packsAvailable: prev.packsAvailable + 1,
+      };
+      saveCollection(next);
+      return next;
+    });
+  }
 
   function handlePackOpened(cards: DinoCard[]) {
     setCollection((prev) => {
@@ -61,6 +73,12 @@ function App() {
         >
           Collection
         </button>
+        <button
+          className={`app-nav__tab ${tab === 'battle' ? 'app-nav__tab--active' : ''}`}
+          onClick={() => setTab('battle')}
+        >
+          Battle
+        </button>
       </nav>
 
       <main className="app-main">
@@ -71,6 +89,9 @@ function App() {
           />
         )}
         {tab === 'collection' && <Collection collection={collection} />}
+        {tab === 'battle' && (
+          <Battle collection={collection} onBattleWon={handleBattleWon} />
+        )}
       </main>
     </div>
   );
