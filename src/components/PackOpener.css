@@ -1,0 +1,95 @@
+.pack-opener {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px 16px;
+  min-height: 60vh;
+}
+
+.pack-opener__pack-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.pack-opener__pack-emoji {
+  font-size: 96px;
+  filter: drop-shadow(0 8px 24px rgba(255,150,0,0.4));
+}
+
+.pack-opener__pack-label {
+  font-size: 22px;
+  font-weight: 800;
+  color: #e0e0e0;
+}
+
+.pack-opener__pack-sub {
+  font-size: 13px;
+  color: #888;
+}
+
+.pack-opener__count {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.pack-opener__empty-hint {
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+  margin: 0;
+}
+
+/* Revealing state */
+.pack-opener--revealing {
+  justify-content: flex-start;
+  padding-top: 24px;
+  min-height: auto;
+}
+
+.pack-opener__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 0;
+  text-align: center;
+}
+
+.pack-opener__cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding: 8px;
+}
+
+.pack-opener__card-slot {
+  transition: transform 0.3s ease;
+}
+
+.pack-opener__card-slot--revealed {
+  animation: pop-in 0.3s ease;
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.85); opacity: 0.5; }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pack-opener__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 24px;
+}
