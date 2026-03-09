@@ -3,6 +3,25 @@ import { ALL_CARDS } from '../data/dinosaurs';
 
 const RARITY_ORDER: Rarity[] = ['fossilized', 'excavated', 'ancient', 'apex', 'extinction'];
 
+function hashString(str: string): number {
+  // FNV-1a 32-bit
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function mulberry32(seed: number): () => number {
+  return function () {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 export function pickCpuCard(playerCard: DinoCard): DinoCard {
   const playerIdx = RARITY_ORDER.indexOf(playerCard.rarity);
   const candidates = ALL_CARDS.filter((c) => {
@@ -10,6 +29,17 @@ export function pickCpuCard(playerCard: DinoCard): DinoCard {
     return Math.abs(idx - playerIdx) <= 1;
   });
   return candidates[Math.floor(Math.random() * candidates.length)];
+}
+
+/** Deterministically pick an enemy card seeded by a scanned barcode value. */
+export function pickCpuCardSeeded(barcode: string, playerCard: DinoCard): DinoCard {
+  const rng = mulberry32(hashString(barcode));
+  const playerIdx = RARITY_ORDER.indexOf(playerCard.rarity);
+  const candidates = ALL_CARDS.filter((c) => {
+    const idx = RARITY_ORDER.indexOf(c.rarity);
+    return Math.abs(idx - playerIdx) <= 1;
+  });
+  return candidates[Math.floor(rng() * candidates.length)];
 }
 
 /**
