@@ -2,7 +2,8 @@ import { useState } from 'react';
 import type { DinoCard, PlayerCollection, BattleMove } from '../types';
 import { BATTLE_MOVES, RARITY_COLORS, RARITY_LABELS } from '../types';
 import { CARD_MAP } from '../data/dinosaurs';
-import { calcDamage, cpuChooseMove, pickCpuCard } from '../utils/battle';
+import { calcDamage, cpuChooseMove, pickCpuCard, pickCpuCardSeeded } from '../utils/battle';
+import { BarcodeScanner } from './BarcodeScanner';
 import './Battle.css';
 
 type BattlePhase = 'select' | 'choose' | 'resolve' | 'over';
@@ -56,13 +57,22 @@ export function Battle({ collection, onBattleWon }: Props) {
   const [playerLastMove, setPlayerLastMove] = useState<BattleMove | null>(null);
   const [log, setLog] = useState<string[]>([]);
   const [won, setWon] = useState<boolean | null>(null);
+  const [scannedBarcode, setScannedBarcode] = useState<string | null>(null);
+  const [showScanner, setShowScanner] = useState(false);
 
   const ownedCards = collection.ownedCards
     .map((o) => CARD_MAP[o.cardId])
     .filter(Boolean);
 
+  function handleBarcodeDetected(value: string) {
+    setScannedBarcode(value);
+    setShowScanner(false);
+  }
+
   function startBattle(card: DinoCard) {
-    const cpuCard = pickCpuCard(card);
+    const cpuCard = scannedBarcode
+      ? pickCpuCardSeeded(scannedBarcode, card)
+      : pickCpuCard(card);
     setPlayer({ card, currentHp: card.hp, reserve: 1 });
     setCpu({ card: cpuCard, currentHp: cpuCard.hp, reserve: 1 });
     setPhase('choose');
@@ -151,14 +161,48 @@ export function Battle({ collection, onBattleWon }: Props) {
     setPlayer(null);
     setCpu(null);
     setWon(null);
+    setScannedBarcode(null);
   }
 
   // ── Select screen ──────────────────────────────────────────────────
   if (phase === 'select') {
     return (
       <div className="battle-select">
-        <h2 className="battle-select__title">Choose Your Fighter</h2>
-        <p className="battle-select__sub">Pick a dino from your collection.</p>
+        {showScanner && (
+          <BarcodeScanner
+            onDetected={handleBarcodeDetected}
+            onClose={() => setShowScanner(false)}
+          />
+        )}
+
+        <h2 className="battle-select__title">Battle</h2>
+
+        {/* Enemy summoning */}
+        <div className="battle-summon">
+          {scannedBarcode ? (
+            <div className="battle-summon__result">
+              <span className="battle-summon__label">Enemy summoned</span>
+              <span className="battle-summon__barcode">{scannedBarcode}</span>
+              <button
+                className="battle-summon__rescan"
+                onClick={() => setShowScanner(true)}
+              >
+                📷 Scan again
+              </button>
+            </div>
+          ) : (
+            <button
+              className="battle-summon__btn"
+              onClick={() => setShowScanner(true)}
+            >
+              <span className="battle-summon__btn-icon">📷</span>
+              <span className="battle-summon__btn-label">Scan Barcode to Summon Enemy</span>
+              <span className="battle-summon__btn-sub">Or pick a fighter for a random opponent</span>
+            </button>
+          )}
+        </div>
+
+        <p className="battle-select__sub">Pick your fighter</p>
 
         {ownedCards.length === 0 ? (
           <p className="battle-select__empty">Open some packs first to get dinos!</p>
