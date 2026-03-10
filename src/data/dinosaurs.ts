@@ -3,6 +3,28 @@ import type { DinoCard } from '../types';
 export const ALL_CARDS: DinoCard[] = [
   // Fossilized (Common)
   {
+    id: 'compsognathus',
+    name: 'Compsognathus',
+    rarity: 'fossilized',
+    type: 'Carnivore',
+    atk: 25,
+    def: 15,
+    hp: 40,
+    emoji: '🦖',
+    description: 'Tiny but fierce. Swarms overwhelm larger prey.',
+  },
+  {
+    id: 'hypsilophodon',
+    name: 'Hypsilophodon',
+    rarity: 'fossilized',
+    type: 'Herbivore',
+    atk: 15,
+    def: 30,
+    hp: 55,
+    emoji: '🦕',
+    description: 'Small and swift. Outruns almost every predator.',
+  },
+  {
     id: 'raptor',
     name: 'Velociraptor',
     rarity: 'fossilized',
@@ -37,6 +59,28 @@ export const ALL_CARDS: DinoCard[] = [
   },
 
   // Excavated (Uncommon)
+  {
+    id: 'pachycephalosaurus',
+    name: 'Pachycephalosaurus',
+    rarity: 'excavated',
+    type: 'Herbivore',
+    atk: 45,
+    def: 50,
+    hp: 75,
+    emoji: '🦕',
+    description: 'Dome-headed brawler. Charges skull-first.',
+  },
+  {
+    id: 'baryonyx',
+    name: 'Baryonyx',
+    rarity: 'excavated',
+    type: 'Carnivore',
+    atk: 60,
+    def: 35,
+    hp: 80,
+    emoji: '🐊',
+    description: 'Hooked claws snatch fish from the river.',
+  },
   {
     id: 'ankylosaurus',
     name: 'Ankylosaurus',
@@ -73,6 +117,28 @@ export const ALL_CARDS: DinoCard[] = [
 
   // Ancient (Rare)
   {
+    id: 'allosaurus',
+    name: 'Allosaurus',
+    rarity: 'ancient',
+    type: 'Carnivore',
+    atk: 70,
+    def: 45,
+    hp: 95,
+    emoji: '🦖',
+    description: 'Apex predator of the Jurassic. Hunts the biggest prey.',
+  },
+  {
+    id: 'brachiosaurus',
+    name: 'Brachiosaurus',
+    rarity: 'ancient',
+    type: 'Herbivore',
+    atk: 40,
+    def: 60,
+    hp: 130,
+    emoji: '🦕',
+    description: 'Neck stretches to treetops. Sheer size is its armour.',
+  },
+  {
     id: 'triceratops',
     name: 'Triceratops',
     rarity: 'ancient',
@@ -97,6 +163,17 @@ export const ALL_CARDS: DinoCard[] = [
 
   // Apex (Epic)
   {
+    id: 'therizinosaurus',
+    name: 'Therizinosaurus',
+    rarity: 'apex',
+    type: 'Herbivore',
+    atk: 90,
+    def: 65,
+    hp: 115,
+    emoji: '🦕',
+    description: 'Three-metre claws that can rip through anything.',
+  },
+  {
     id: 'spinosaurus',
     name: 'Spinosaurus',
     rarity: 'apex',
@@ -120,6 +197,17 @@ export const ALL_CARDS: DinoCard[] = [
   },
 
   // Extinction-Level (Legendary)
+  {
+    id: 'argentinosaurus',
+    name: 'Argentinosaurus',
+    rarity: 'extinction',
+    type: 'Herbivore',
+    atk: 80,
+    def: 100,
+    hp: 220,
+    emoji: '🦕',
+    description: 'Heaviest creature to ever walk the planet. Nothing stops it.',
+  },
   {
     id: 'giganotosaurus',
     name: 'Giganotosaurus',
